@@ -8,6 +8,16 @@ function App() {
   const [long, setLong] = useState('-122.2712');
   const [forecast, setForcast] = useState('No forecast available');
   const [hourlyForecast, setHourlyForecast] = useState([]);
+  const [cityState, setCityState] = useState('Piedmont, CA');
+  // const [state, setState] = useState('CA');
+
+  const ForecastTitle = ({ cityState }) => (
+    <h2>Today's Forecast in {cityState}</h2>
+  );
+
+  const HourlyForecastTitle = ({ cityState }) => (
+    <h2>Hourly Forecast in {cityState}</h2>
+  );
 
   const Forecast = ({ forecast }) => (
     <div className="forecast">
@@ -19,7 +29,6 @@ function App() {
     console.log('hourly forecast: ', typeof hourlyForecast, hourlyForecast);
     return (
       <>
-        <h2>Hourly Forecast</h2>
         <div className="hourlyForecastContainer">
           {hourlyForecast.map((period) => (
             <div key={period.number} className="hourlyPeriod">
@@ -112,9 +121,10 @@ function App() {
         <button onClick={getWeather}>Get the weather?</button>
       </div>
       <div className="weather">
-        <h2>Today's Forecast</h2>
+        <ForecastTitle cityState={cityState} />
         <Forecast forecast={forecast} />
 
+        <HourlyForecastTitle cityState={cityState} />
         <HourlyForecast hourlyForecast={hourlyForecast} />
       </div>
     </div>
