@@ -1,25 +1,124 @@
-import logo from './logo.svg';
 import './App.css';
+import React from 'react';
+
+const { useState } = React;
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+  const [lat, setLat] = useState('37.8044');
+  const [long, setLong] = useState('-122.2712');
+  const [forecast, setForcast] = useState('No forecast available');
+  const [hourlyForecast, setHourlyForecast] = useState([]);
+
+  const Forecast = ({ forecast }) => (
+    <div className="forecast">
+      {forecast ? forecast : 'No Forecast Available'}
     </div>
   );
-}
+
+  const HourlyForecast = ({ hourlyForecast }) => {
+    console.log('hourly forecast: ', typeof hourlyForecast, hourlyForecast);
+    return (
+      <>
+        <h2>Hourly Forecast</h2>
+        <div className="hourlyForecastContainer">
+          {hourlyForecast.map((period) => (
+            <div key={period.number} className="hourlyPeriod">
+              <p>
+                <img
+                  src={period.icon}
+                  alt={period.shortForecast}
+                  height={56}
+                  width={56}
+                />
+              </p>
+              <p>
+                {new Date(period.startTime).getHours() < 12
+                  ? new Date(period.startTime).getHours() === 0
+                    ? '12AM'
+                    : `${new Date(period.startTime).getHours()}AM`
+                  : `${new Date(period.startTime).getHours() - 12}PM`}
+              </p>
+              <p>{period.shortForecast}</p>
+              <p>
+                {period.temperature}
+                {period.temperatureUnit}
+              </p>
+            </div>
+          ))}
+        </div>
+      </>
+    );
+  };
+  const getWeather = async () => {
+    const POINTS_URL = `https://api.weather.gov/points/${lat},${long}`;
+    // Step #1 - Get Weather for Lat/Long (use POINTS_URL)
+    // Step #2 - Get a response from the resulting "properties.forecast" endpoint
+    // Step #3 - Get a response from the resulting "properties.forecastHourly" endpoint
+    // Step #4 - Display the data from "properties.periods" returned by #2
+    // Step #5 - Display the next 12 hours' forecast data from "properties.periods" returned by #3
+    const requestOptions = {
+      method: 'GET',
+      redirect: 'follow',
+    };
+
+    fetch(POINTS_URL, requestOptions)
+      .then((response) => response.json())
+      .then((data) => {
+        // console.log(data);
+        fetch(data.properties.forecast)
+          .then((response) => response.json())
+          .then((data) => {
+            // console.log(data);
+            setForcast(data.properties.periods[0].detailedForecast);
+          })
+          .catch((error) => console.log('error', error));
+        fetch(data.properties.forecastHourly)
+          .then((response) => response.json())
+          .then((data) => {
+            // console.log(
+            //   'hourly forecast: ',
+            //   Object.values(data.properties.periods.slice(0, 4))
+            // );
+            let hourlyF = Object.values(data.properties.periods.slice(0, 12));
+            setHourlyForecast(hourlyF);
+          })
+          .catch((error) => console.log('error', error));
+      })
+      .catch((error) => console.log('error', error));
+  };
+
+  const handleLongChange = (event) => {
+    setLong(event.target.value);
+  };
+  const handleLatChange = (event) => {
+    setLat(event.target.value);
+  };
+
+  return (
+    <div className="App">
+      <h1>Using Weather.gov public API with React </h1>
+      <div className="input">
+        <label htmlFor="latitude">Latitude</label>{' '}
+        <input value={lat} id="latitude" onChange={handleLatChange} />
+      </div>
+
+      <div className="input">
+        <label htmlFor="longitude">Longitude</label>{' '}
+        <input value={long} id="longitude" onChange={handleLongChange} />
+      </div>
+
+      <br />
+      <div className="formButton">
+        <button onClick={getWeather}>Get the weather?</button>
+      </div>
+      <div className="weather">
+        <h2>Today's Forecast</h2>
+        <Forecast forecast={forecast} />
+
+        <HourlyForecast hourlyForecast={hourlyForecast} />
+      </div>
+    </div>
+  );
+} // end of App
 
 export default App;
