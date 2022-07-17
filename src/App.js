@@ -30,37 +30,39 @@ function App() {
     return (
       <>
         <div className="hourlyForecastContainer">
-          {hourlyForecast.map((period) => {
-            const currentHour = new Date(period.startTime).getHours();
-            return (
-              <div key={period.number} className="hourlyPeriod">
-                <p>
-                  <img
-                    src={period.icon}
-                    alt={period.shortForecast}
-                    height={56}
-                    width={56}
-                  />
-                </p>
-                <p>
-                  {
-                    currentHour < 12 //must be expression; if currentHour < 12
-                      ? currentHour === 0
-                        ? '12AM' //if currentHour is 0, set to 12AM
-                        : `${currentHour}AM` //otherwise, set to currentHour AM
-                      : currentHour === 12 //if currentHour is 12, set to 12PM
-                      ? '12PM'
-                      : `${currentHour - 12}PM` // otherwise, set to currentHour PM
-                  }
-                </p>
-                <p>{period.shortForecast}</p>
-                <p>
-                  {period.temperature}
-                  {period.temperatureUnit}
-                </p>
-              </div>
-            );
-          })}
+          {hourlyForecast.length === 0
+            ? 'No forecast available'
+            : hourlyForecast.map((period) => {
+                const currentHour = new Date(period.startTime).getHours();
+                return (
+                  <div key={period.number} className="hourlyPeriod">
+                    <p className="hour">
+                      {
+                        currentHour < 12 //must be expression; if currentHour < 12
+                          ? currentHour === 0
+                            ? '12AM' //if currentHour is 0, set to 12AM
+                            : `${currentHour}AM` //otherwise, set to currentHour AM
+                          : currentHour === 12 //if currentHour is 12, set to 12PM
+                          ? '12PM'
+                          : `${currentHour - 12}PM` // otherwise, set to currentHour PM
+                      }
+                    </p>
+                    <p className="icon">
+                      <img
+                        src={period.icon}
+                        alt={period.shortForecast}
+                        height={56}
+                        width={56}
+                      />
+                    </p>
+                    <p className="shortForecast">{period.shortForecast}</p>
+                    <p className="temperature">
+                      {period.temperature}
+                      {period.temperatureUnit}
+                    </p>
+                  </div>
+                );
+              })}
         </div>
       </>
     );
@@ -112,7 +114,8 @@ function App() {
 
   return (
     <div className="App">
-      <h1>Using Weather.gov public API with React </h1>
+      <h1>Weather </h1>
+      <h2>Using Weather.gov public API</h2>
       <div className="input">
         <label htmlFor="latitude">Latitude</label>{' '}
         <input value={lat} id="latitude" onChange={handleLatChange} />
