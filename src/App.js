@@ -30,30 +30,35 @@ function App() {
     return (
       <>
         <div className="hourlyForecastContainer">
-          {hourlyForecast.map((period) => (
-            <div key={period.number} className="hourlyPeriod">
-              <p>
-                <img
-                  src={period.icon}
-                  alt={period.shortForecast}
-                  height={56}
-                  width={56}
-                />
-              </p>
-              <p>
-                {new Date(period.startTime).getHours() < 12
-                  ? new Date(period.startTime).getHours() === 0
-                    ? '12AM'
-                    : `${new Date(period.startTime).getHours()}AM`
-                  : `${new Date(period.startTime).getHours() - 12}PM`}
-              </p>
-              <p>{period.shortForecast}</p>
-              <p>
-                {period.temperature}
-                {period.temperatureUnit}
-              </p>
-            </div>
-          ))}
+          {hourlyForecast.map((period) => {
+            const currentHour = new Date(period.startTime).getHours();
+            return (
+              <div key={period.number} className="hourlyPeriod">
+                <p>
+                  <img
+                    src={period.icon}
+                    alt={period.shortForecast}
+                    height={56}
+                    width={56}
+                  />
+                </p>
+                <p>
+                  {currentHour < 12
+                    ? currentHour === 0
+                      ? '12AM'
+                      : `${currentHour}AM`
+                    : currentHour === 12
+                    ? '12PM'
+                    : `${currentHour - 12}PM`}
+                </p>
+                <p>{period.shortForecast}</p>
+                <p>
+                  {period.temperature}
+                  {period.temperatureUnit}
+                </p>
+              </div>
+            );
+          })}
         </div>
       </>
     );
