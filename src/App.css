@@ -1,37 +1,42 @@
 html,
 body,
-#app,
-#app > div {
+#root,
+.app {
   height: 100vh;
+  width: 100vw;
 }
 
 body {
-  height: 100%;
   background: rgb(238, 252, 255);
   background: linear-gradient(
     180deg,
     rgba(238, 252, 255, 1) 0%,
     rgba(203, 234, 250, 1) 35%,
-    rgba(127, 208, 254, 1) 100%
+    rgba(127, 208, 254, 1) 85%
   );
-  margin: 8px 0;
+
   /* display: flex;
   flex-direction: row;
   align-items: center;
   justify-content: center; */
 }
-.root {
-  width: 100%;
-  height: 100%;
+
+#root {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  overflow: scroll;
 }
+
 .App {
   font-family: 'DM Sans', sans-serif;
-  width: 80vw;
-  margin: 40px auto;
+  width: 70vw;
+  margin: 3em auto;
   border: 1px solid #ddd;
   border-radius: 20px;
   background: #fff;
-  padding: 20px 20px;
+  padding: 0 4em 2em;
   box-shadow: 5px 5px 15px rgba(127, 208, 254, 1);
 }
 .App h1 {
