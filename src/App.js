@@ -43,12 +43,12 @@ function App() {
                   />
                 </p>
                 <p>
-                  {currentHour < 12
+                  {currentHour < 12 //must be expression; if currentHour < 12
                     ? currentHour === 0
-                      ? '12AM'
-                      : `${currentHour}AM`
-                    : currentHour === 12
-                    ? '12PM'
+                      ? '12AM' //if currentHour is 0, set to 12AM
+                      : `${currentHour}AM` //otherwise, set to currentHour AM
+                    : currentHour === 12 //if currentHour is 12, set to 12PM
+                    ? '12PM' // otherwise, set to currentHour PM
                     : `${currentHour - 12}PM`}
                 </p>
                 <p>{period.shortForecast}</p>
