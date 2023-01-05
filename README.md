@@ -1,6 +1,7 @@
 # Screenshot
 
-![Screenshot of this App](/screenshot-1331x1314.png 'Screenshot of this App')
+![Screenshot of this App](![image](https://user-images.githubusercontent.com/460435/210676785-3f0d2798-0e4f-4340-97ea-98c1b46b4166.png)
+ 'Screenshot of this App')
 
 ## Available Scripts
 
