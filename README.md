@@ -1,6 +1,6 @@
 # Screenshot
 
-![Screenshot of this App](http://%PUBLIC_URL%/screenshot-1331x1314.png 'Screenshot of this App')
+![Screenshot of this App](/public/screenshot-1331x1314.pngscreenshot-1331x1314.png 'Screenshot of this App')
 
 ## Available Scripts
 
